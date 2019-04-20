@@ -4,14 +4,13 @@
 #
 Name     : perl-Test-Identity
 Version  : 0.01
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-Identity-0.01.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-Identity-0.01.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libio-async-perl/libio-async-perl_0.72-1.debian.tar.xz
-Summary  : 'assert the referential identity of a reference'
+Summary  : Perl module to test the referential identity of a reference
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
-Requires: perl-Test-Identity-license = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -21,29 +20,12 @@ SYNOPSIS
 use Test::More tests => 2;
 use Test::Identity;
 
-%package dev
-Summary: dev components for the perl-Test-Identity package.
-Group: Development
-Provides: perl-Test-Identity-devel = %{version}-%{release}
-
-%description dev
-dev components for the perl-Test-Identity package.
-
-
-%package license
-Summary: license components for the perl-Test-Identity package.
-Group: Default
-
-%description license
-license components for the perl-Test-Identity package.
-
-
 %prep
 %setup -q -n Test-Identity-0.01
 cd ..
 %setup -q -T -D -n Test-Identity-0.01 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Test-Identity-0.01/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Test-Identity-0.01/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
@@ -82,13 +64,3 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Test/Identity.pm
-
-%files dev
-%defattr(-,root,root,-)
-/usr/share/man/man3/Test::Identity.3
-
-%files license
-%defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Test-Identity/LICENSE
-/usr/share/package-licenses/perl-Test-Identity/deblicense_copyright
