@@ -4,14 +4,15 @@
 #
 Name     : perl-Test-Identity
 Version  : 0.01
-Release  : 16
+Release  : 17
 URL      : https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-Identity-0.01.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-Identity-0.01.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libio-async-perl/libio-async-perl_0.72-1.debian.tar.xz
-Summary  : Perl module to test the referential identity of a reference
+Summary  : 'assert the referential identity of a reference'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
 Requires: perl-Test-Identity-license = %{version}-%{release}
+Requires: perl-Test-Identity-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -39,18 +40,28 @@ Group: Default
 license components for the perl-Test-Identity package.
 
 
+%package perl
+Summary: perl components for the perl-Test-Identity package.
+Group: Default
+Requires: perl-Test-Identity = %{version}-%{release}
+
+%description perl
+perl components for the perl-Test-Identity package.
+
+
 %prep
 %setup -q -n Test-Identity-0.01
-cd ..
-%setup -q -T -D -n Test-Identity-0.01 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libio-async-perl_0.72-1.debian.tar.xz
+cd %{_builddir}/Test-Identity-0.01
 mkdir -p deblicense/
-cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Test-Identity-0.01/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/Test-Identity-0.01/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -60,7 +71,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -69,8 +80,8 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Test-Identity
-cp LICENSE %{buildroot}/usr/share/package-licenses/perl-Test-Identity/LICENSE
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Test-Identity/deblicense_copyright
+cp %{_builddir}/Test-Identity-0.01/LICENSE %{buildroot}/usr/share/package-licenses/perl-Test-Identity/801d36a8372e2c1f7a2bf0599fda0eab01e1ce18
+cp %{_builddir}/Test-Identity-0.01/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Test-Identity/127f6e9fcb6e6f60b441ea9af1efde0780d0f249
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -83,7 +94,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Test/Identity.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -91,5 +101,9 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Test-Identity/LICENSE
-/usr/share/package-licenses/perl-Test-Identity/deblicense_copyright
+/usr/share/package-licenses/perl-Test-Identity/127f6e9fcb6e6f60b441ea9af1efde0780d0f249
+/usr/share/package-licenses/perl-Test-Identity/801d36a8372e2c1f7a2bf0599fda0eab01e1ce18
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Test/Identity.pm
