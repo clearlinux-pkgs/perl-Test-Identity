@@ -4,7 +4,7 @@
 #
 Name     : perl-Test-Identity
 Version  : 0.01
-Release  : 17
+Release  : 18
 URL      : https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-Identity-0.01.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/P/PE/PEVANS/Test-Identity-0.01.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libi/libio-async-perl/libio-async-perl_0.72-1.debian.tar.xz
@@ -81,7 +81,7 @@ make TEST_VERBOSE=1 test
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Test-Identity
 cp %{_builddir}/Test-Identity-0.01/LICENSE %{buildroot}/usr/share/package-licenses/perl-Test-Identity/801d36a8372e2c1f7a2bf0599fda0eab01e1ce18
-cp %{_builddir}/Test-Identity-0.01/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Test-Identity/127f6e9fcb6e6f60b441ea9af1efde0780d0f249
+cp %{_builddir}/debian/copyright %{buildroot}/usr/share/package-licenses/perl-Test-Identity/127f6e9fcb6e6f60b441ea9af1efde0780d0f249
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -106,4 +106,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.1/Test/Identity.pm
+/usr/lib/perl5/vendor_perl/5.30.2/Test/Identity.pm
